@@ -105,7 +105,7 @@ end
 unless file_loaded?(__FILE__)
 	UI.menu('Plugins').add_item('OSMBI'){
 		file = nil
-		file = UI.openpanel("Open OSM File", "", "OSM|*.osm|XML|*.xml|Any|*|")
+		file = UI.openpanel("Select Open Street Map File", "", "OSM|*.osm|XML|*.xml|Any|*|")
 		if file
 			self.import_osm_file(file) 
 		end 
