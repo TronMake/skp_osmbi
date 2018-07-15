@@ -10,7 +10,7 @@ OSMBI is a Open Street Map Building Importer for SketchUp
 
 - ##### Source code installation
 
-1. Copy `tm_osmi.rb` and `tm_osmi` folder to SketchUp extension folder, (please correct version number)
+1. Copy `tm_osmi.rb` and `tm_osmi` folder to SketchUp extension folder.
 2. Restart SketchUp
 
 - ###### NOTES
