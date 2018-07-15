@@ -1,28 +1,27 @@
 # SketchUp Open Street Map Building Importer
 
-#### Introduction
+## Introduction
 OSMBI is a Open Street Map Building Importer for SketchUp
 
 
-#### Installation
+## Installation
 
 **You can choose source code installation or extension installation as you like.**
 
-- ##### Source code installation
+- ### Source code installation
 
 1. Copy `tm_osmi.rb` and `tm_osmi` folder to SketchUp extension folder.
 2. Restart SketchUp
-
-- ###### NOTES
+- #### NOTES
 Extension folder for windows is `%appdata%\SketchUp\SketchUp ####\SketchUp\Plugins\`  
 Extension folder for Mac OS X is `~/Library/Application Support/SketchUp ####/SketchUp/Plugins`  
 Please change the `####` to the appropriate version of SketchUp.  
 For example, extension folder of SketchUp 2018 (both pro and make version) in windows is `%appdata%\SketchUp\SketchUp 2018\SketchUp\Plugins\`
 
-- ##### Extension installation
+- ### Extension installation
 1. Download extension file (.rbz file) form [releases](../../releases)
 2. Select `Window > Extension Manager` (Windows) or `SketchUp > Extension Manager` (Mac OS X)
-3. Click `Install Extension` botton and select `skp_osmbi.rbz` file
+3. Click `Install Extension` button and select `skp_osmbi.rbz` file
 
 
 #### Usage
@@ -36,7 +35,7 @@ For example, extension folder of SketchUp 2018 (both pro and make version) in wi
 - Do not support color and metarial.
 - Do not support the shape of roof, only flat roof.
 
-#### Releated works
+#### References
 
 1. [Open Street Map](https://www.openstreetmap.org/)
 2. [SketchUp](https://www.sketchup.com/)
