@@ -38,15 +38,20 @@ end
 ######
 def self.import_osm_file(file)
 	self.skpupdate
+	Sketchup.status_text = "Opening \"#{file}\", please wait..."
 	xml = File.new(file)
 	if !xml 
+		Sketchup.status_text = "Open \"#{file}\" failed!"
 		return nil
 	end
+	Sketchup.status_text = "Parsing \"#{file}\", please wait..."
 	doc = REXML::Document.new xml
 	if !doc 
+		Sketchup.status_text = "\"#{file}\" is not xml format!"
 		return nil
 	end
 	if !doc.elements['osm'] 
+		Sketchup.status_text = "\"#{file}\" is not osm format!"
 		return nil
 	end
 	Sketchup.status_text = "Loading \"#{file}\", please wait..."
@@ -89,7 +94,8 @@ def self.import_osm_file(file)
 		end
 		wcount+=1
 		progress=((wcount*100/wlength)).round
-		Sketchup.status_text = "Loading \"#{file}\", #{progress}% #{bids} buildings!"
+		Sketchup.status_text = "Loading \"#{file}\", #{progress}%, #{bids} buildings!"
+
 	}
 	@view.zoom_extents
 	xml.close
