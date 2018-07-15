@@ -1,37 +1,48 @@
 # SketchUp Open Street Map Building Importer
 
-#### 项目介绍
-SketchUp Open Street Map Building Importer
-
-#### 软件架构
-软件架构说明
+#### Introduction
+OSMBI is a Open Street Map Building Importer for SketchUp
 
 
-#### 安装教程
+#### Installation
 
-1. xxxx
-2. xxxx
-3. xxxx
+**You can choose source code installation or extension installation as you like.**
 
-#### 使用说明
+- ##### Source code installation
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. Copy `tm_osmi.rb` and `tm_osmi` folder to SketchUp extension folder, (please correct version number)
+2. Restart SketchUp
 
-#### 参与贡献
+- ###### NOTES
+Extension folder for windows is `%appdata%\SketchUp\SketchUp ####\SketchUp\Plugins\`  
+Extension folder for Mac OS X is `~/Library/Application Support/SketchUp ####/SketchUp/Plugins`  
+Please change the `####` to the appropriate version of SketchUp.  
+For example, extension folder of SketchUp 2018 (both pro and make version) in windows is `%appdata%\SketchUp\SketchUp 2018\SketchUp\Plugins\`
 
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+- ##### Extension installation
+1. Download extension file (.rbz file) form [releases](./skp_osmbi/releases)
+2. Select `Window > Extension Manager` (Windows) or `SketchUp > Extension Manager` (Mac OS X)
+3. Click `Install Extension` botton ans select `skp_osmbi.rbz` file
 
 
-#### 码云特技
+#### Usage
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. Select `Extensions` menu, click `OSMBI`.
+2. Select your open street map file (.osm).
+3. Wait for a while.
+
+#### Issues
+- Only can import buildings, not ways or others.
+- Do not support color and metarial.
+- Do not support the shape of roof, only flat roof.
+
+#### Releated works
+
+1. [Open Street Map](https://www.openstreetmap.org/)
+2. [SketchUp](https://www.sketchup.com/)
+3. [SketchUp Download](https://www.sketchup.com/download/all)
+3. [SketchUp Ruby API](https://ruby.sketchup.com/)
+4. [Ruby REXML (xml parser) Doc](https://ruby-doc.org/stdlib-2.2.3/libdoc/rexml/rdoc/REXML/Document.html)
+
+
+
