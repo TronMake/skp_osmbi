@@ -22,7 +22,7 @@ For example, extension folder of SketchUp 2018 (both pro and make version) in wi
 - ##### Extension installation
 1. Download extension file (.rbz file) form [releases](../../releases)
 2. Select `Window > Extension Manager` (Windows) or `SketchUp > Extension Manager` (Mac OS X)
-3. Click `Install Extension` botton ans select `skp_osmbi.rbz` file
+3. Click `Install Extension` botton and select `skp_osmbi.rbz` file
 
 
 #### Usage
