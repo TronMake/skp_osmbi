@@ -20,7 +20,7 @@ Please change the `####` to the appropriate version of SketchUp.
 For example, extension folder of SketchUp 2018 (both pro and make version) in windows is `%appdata%\SketchUp\SketchUp 2018\SketchUp\Plugins\`
 
 - ##### Extension installation
-1. Download extension file (.rbz file) form [releases](./skp_osmbi/releases)
+1. Download extension file (.rbz file) form [releases](../../releases)
 2. Select `Window > Extension Manager` (Windows) or `SketchUp > Extension Manager` (Mac OS X)
 3. Click `Install Extension` botton ans select `skp_osmbi.rbz` file
 
