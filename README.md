@@ -34,6 +34,7 @@ For example, extension folder of SketchUp 2018 (both pro and make version) in wi
 #### Example
 
 map: [https://www.openstreetmap.org/api/0.6/map?bbox=-74.00362,40.72491,-73.99424,40.73209](https://www.openstreetmap.org/api/0.6/map?bbox=-74.00362,40.72491,-73.99424,40.73209)
+
 png: [https://render.openstreetmap.org/cgi-bin/export?bbox=-74.00362,40.72491,-73.99424,40.73209&scale=6800&format=png](https://render.openstreetmap.org/cgi-bin/export?bbox=-74.00362,40.72491,-73.99424,40.73209&scale=6800&format=png)
 
 
