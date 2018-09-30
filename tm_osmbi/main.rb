@@ -11,20 +11,47 @@ module TRONMAKE
 @ent = @mod.entities
 @sel = @mod.selection
 @view = @mod.active_view
+@bid_layer
+@way_layer
+@bbx_layer
+@current_layer
 ######
 def self.skpupdate
 	@mod = Sketchup.active_model
 	@ent = @mod.entities
 	@sel = @mod.selection
 	@view = @mod.active_view
+	@current_layer = @mod.active_layer
 end
 ######
-def self.add_building(nids,height)
+def self.setlayer
+	layers = @mod.layers
+	@bid_layer = layers.add("osm buildings")
+	@way_layer = layers.add("osm ways")
+	@bbx_layer = layers.add("osm bounding")
+end
+######
+def self.resorte_layer
+	@mod.active_layer = @current_layer
+end
+######
+def self.add_bound(minlat,maxlat,minlon,maxlon)
+	ld = Geom::LatLong.new(minlat,minlon).to_utm
+	lu = Geom::LatLong.new(maxlat,minlon).to_utm
+	rd = Geom::LatLong.new(minlat,maxlon).to_utm
+	ru = Geom::LatLong.new(maxlat,maxlon).to_utm
 	pts=[]
-	nids.each{|nid|
-		utm=@LL[nid].to_utm
-		pts<<[utm.x.m,utm.y.m,height[0].m] 
-	}
+	pts<<[ld.x.m,ld.y.m,0]
+	pts<<[rd.x.m,rd.y.m,0]
+	pts<<[ru.x.m,ru.y.m,0]
+	pts<<[lu.x.m,lu.y.m,0]
+	pts<<[ld.x.m,ld.y.m,0]
+	@mod.active_layer = @bbx_layer
+	line = @ent.add_line(pts)
+end
+######
+def self.add_building(pts,height)
+	@mod.active_layer = @bid_layer
 	face = @ent.add_face(pts)
 	n = face.normal
 	if n[2]<0
@@ -36,8 +63,14 @@ def self.add_building(nids,height)
 	end
 end
 ######
+def self.add_way(pts)
+	@mod.active_layer = @way_layer
+	face = @ent.add_line(pts)
+end
+######
 def self.import_osm_file(file)
 	self.skpupdate
+	self.setlayer
 	Sketchup.status_text = "Opening \"#{file}\", please wait..."
 	xml = File.new(file)
 	if !xml 
@@ -54,52 +87,95 @@ def self.import_osm_file(file)
 		Sketchup.status_text = "\"#{file}\" is not osm format!"
 		return nil
 	end
+
+	bbx=doc.elements['osm/bounds']
+	minlat=bbx.attributes['minlat'].to_f
+	maxlat=bbx.attributes['maxlat'].to_f
+	minlon=bbx.attributes['minlon'].to_f
+	maxlon=bbx.attributes['maxlon'].to_f
+	self.add_bound(minlat,maxlat,minlon,maxlon)
 	Sketchup.status_text = "Loading \"#{file}\", please wait..."
-	@ID=[]
-	@LL=[]
+	osmid=[]
+	osmll=[]
 	doc.elements.each("osm/node") { |node| 
-		@ID << node.attributes["id"].to_i
-		@LL << Geom::LatLong.new(node.attributes["lat"].to_f,node.attributes["lon"].to_f)
+	    osmid << node.attributes["id"].to_i
+	    osmll << Geom::LatLong.new(node.attributes["lat"].to_f,node.attributes["lon"].to_f)
 	}
 	bids=0
+	wids=0
 	wcount=0
 	progress=0
 	wlength = REXML::XPath.first(doc, "count(osm/way)")
 	doc.elements.each("osm/way") { |way|
-		height=[0,0]
-		isbuilding=false
-		way.elements.each("tag") { |tag|
-			k = tag.attributes["k"]
-			if k==="building"
-				isbuilding=true
-			elsif k==="building:part"
-				isbuilding=true
-			elsif k==="height"
-				height[1] = tag.attributes["v"].to_f
-			elsif k==="min_height"
-				height[0] = tag.attributes["v"].to_f
-		      # roof color material TBD
-			end
-		}
-		if isbuilding
-			nids=[]
-			way.elements.each("nd") { |nd|
-				nid = nd.attributes["ref"].to_i
-				nids << @ID.index(nid)
-			}
-			if nids
-				self.add_building(nids,height)
-				bids+=1
-			end
-		end
-		wcount+=1
-		progress=((wcount*100/wlength)).round
-		Sketchup.status_text = "Loading \"#{file}\", #{progress}%, #{bids} buildings!"
+	    height=[0,0]
+	    isbuilding=false
+	    isway=false
+	    way.elements.each("tag") { |tag|
+	        k = tag.attributes["k"]
+	        if k==="building"
+	            isbuilding=true
+	        elsif k==="building:part"
+	            isbuilding=true
+	        elsif k==="height"
+	            height[1] = tag.attributes["v"].to_f
+	        elsif k==="min_height"
+	            height[0] = tag.attributes["v"].to_f
+	          # roof color material TBD
+	        end
+	        
+	        if k==="highway"
+	            isway=true
+	        elsif k==="building:part"
+	            isbuilding=true
+	        elsif k==="height"
+	            height[1] = tag.attributes["v"].to_f
+	        elsif k==="min_height"
+	            height[0] = tag.attributes["v"].to_f
+	          # roof color material TBD
+	        end
+	        
+	    }
+	    if isbuilding
+	        nids=[]
+	        way.elements.each("nd") { |nd|
+	            nid = nd.attributes["ref"].to_i
+	            nids << osmid.index(nid)
+	        }
+	        if nids
+	            pts=[]
+	            nids.each{|nid|
+	                utm=osmll[nid].to_utm
+	                pts<<[utm.x.m,utm.y.m,height[0].m] 
+	            }
+	            self.add_building(pts,height)
+	            bids+=1
+	        end
+	    end
+	    if isway
+	        nids=[]
+	        way.elements.each("nd") { |nd|
+	            nid = nd.attributes["ref"].to_i
+	            nids << osmid.index(nid)
+	        }
+	        if nids
+	            pts=[]
+	            nids.each{|nid|
+	                utm=osmll[nid].to_utm
+	                pts<<[utm.x.m,utm.y.m,height[0].m] 
+	            }
+	            self.add_way(pts)
+	            wids+=1
+	        end
+	    end
+	    wcount+=1
+	    progress=((wcount*100/wlength)).round
+	    Sketchup.status_text = "Loading \"#{file}\", #{progress}%, #{bids} buildings, #{wids} ways!"
 
 	}
-	@view.zoom_extents
 	xml.close
+	@view.zoom_extents
 	Sketchup.status_text = "Loading \"#{file}\" successed, #{bids} buildings!"
+	self.resorte_layer
 end
 ######
 unless file_loaded?(__FILE__)
