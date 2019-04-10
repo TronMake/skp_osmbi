@@ -42,6 +42,10 @@ png: [https://render.openstreetmap.org/cgi-bin/export?bbox=-74.00362,40.72491,-7
 - Do not support color and metarial.
 - Do not support the shape of roof, only flat roof.
 
+#### Citation
+
+L. Wang et al., "Vehicle-to-infrastructure channel characterization in urban environment at 28 GHz," in China Communications, vol. 16, no. 2, pp. 36-48, Feb. 2019.
+
 #### References
 
 1. [Open Street Map](https://www.openstreetmap.org/)
